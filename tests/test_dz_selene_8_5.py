@@ -15,7 +15,7 @@ def test_tools_qa():
     browser.element('[class="react-datepicker__month-select"]').click().element('[value="2"]').click()
     browser.element('[class="react-datepicker__year-select"]').click().element('[value="1999"]').click()
     browser.element('[class="react-datepicker__day react-datepicker__day--008"]').click()
-    browser.element('#subjectsInput').type('automated testing')
+    browser.element('#subjectsInput').type('automated testing').press_enter()
     browser.element('[id="stateCity-label"]').perform(command.js.scroll_into_view)
     browser.element('[for="hobbies-checkbox-1"]').click()
     browser.element('[id="uploadPicture"]').send_keys(os.path.abspath('image/kat.png.png'))
@@ -26,13 +26,14 @@ def test_tools_qa():
 
     #проверка резльтата
     browser.element('.modal-title').should(have.text('Thanks for submitting the form'))
-    browser.element('.table-responsive').all('tr td:nth-child(2)').should(have.text(
+    browser.all('tbody td:nth-of-type(2)').should(have.exact_texts(
         'Anatolii Tkach',
         'tkach.vip@gmail.com',
         'Male',
         '5503913933',
-        '08 March 1999',
+        '08 March,1999',
         'Sports',
         'Kat.png.png',
         'Pushkin 22',
-        'NCR Delhi'))
+        'NCR Delhi'
+    ))
