@@ -1,11 +1,11 @@
 import os.path
 
-from selene import browser
+from selene import browser, command, have
+
 
 def test_tools_qa():
-
+    #заполнение формы
     browser.open('https://demoqa.com/automation-practice-form')
-    browser.element('label[for="hobbies-checkbox-1"]').click()
     browser.element('#firstName').type('Anatolii')
     browser.element('#lastName').type('Tkach')
     browser.element('#userEmail').type('tkach.vip@gmail.com')
@@ -16,6 +16,12 @@ def test_tools_qa():
     browser.element('[class="react-datepicker__year-select"]').click().element('[value="1999"]').click()
     browser.element('[class="react-datepicker__day react-datepicker__day--008"]').click()
     browser.element('#subjectsInput').type('automated testing').press_enter()
+    browser.element('[id="stateCity-label"]').perform(command.js.scroll_into_view)
     browser.element('[id="uploadPicture"]').send_keys(os.path.abspath('image/kat.png.png'))
+    browser.element('[id="currentAddress"]').type('Pushkin 22').perform(command.js.scroll_into_view)
+    browser.element('#react-select-3-input').type('NCR').press_enter()
+    browser.element('#react-select-4-input').type('Delhi').press_enter()
+    browser.element('[id="submit"]').press_enter()
 
-
+    #проверка резльтата
+    browser.element('.modal-header').should(have.text('Thanks for submitting the form'))
